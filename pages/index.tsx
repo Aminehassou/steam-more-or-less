@@ -1,7 +1,7 @@
 import useSWR from "swr";
 import Capsule from "../components/Capsule";
 import Button from "../components/Button";
-import { color } from "../utils";
+import { Color } from "../utils";
 
 const fetcher = async (url: string) => {
   const res = await fetch(url);
@@ -36,8 +36,8 @@ export default function Home() {
             playerCount={data.playerCount2}
             imageURL="bioshockcapsule.jpg"
           />
-          <Button text={"Higher"} color={color.Red}></Button>
-          <Button text={"Lower"} color={color.Green}></Button>
+          <Button text={"Higher"} color={Color.Red}></Button>
+          <Button text={"Lower"} color={Color.Green}></Button>
         </div>
       </main>
     </div>
