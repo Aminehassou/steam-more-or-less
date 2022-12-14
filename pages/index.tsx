@@ -1,4 +1,7 @@
 import useSWR from "swr";
+import Capsule from "../components/Capsule";
+import Button from "../components/Button";
+import { color } from "../utils";
 
 const fetcher = async (url: string) => {
   const res = await fetch(url);
@@ -16,10 +19,25 @@ export default function Home() {
   if (isLoading) return <div>loading...</div>;
   return (
     <div>
-      <main className="grid grid-cols-2 gap-4 text-center text-white text-3xl">
-        <div>
-          <div className="font-bold ">{data.name}</div>
-          <div className="">{data.playerCount}</div>
+      <main className="grid grid-cols-11 text-center text-3xl text-white h-screen place-items-center">
+        <div className="col-span-5">
+          <Capsule
+            name={data.name1}
+            playerCount={data.playerCount1}
+            imageURL="dota2capsule.jpg"
+          />
+        </div>
+        <div className="col-span-1">
+          <img src="vr3.png" className="h-screen" alt="" />
+        </div>
+        <div className="col-span-5">
+          <Capsule
+            name={data.name2}
+            playerCount={data.playerCount2}
+            imageURL="bioshockcapsule.jpg"
+          />
+          <Button text={"Higher"} color={color.Red}></Button>
+          <Button text={"Lower"} color={color.Green}></Button>
         </div>
       </main>
     </div>
