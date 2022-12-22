@@ -25,16 +25,16 @@ export default function Home() {
             name={data.name1}
             playerCount={data.playerCount1}
             imageURL="dota2capsule.jpg"
+            showPlayerData={true}
           />
         </div>
-        <div className="col-span-1">
-          <img src="vr3.png" className="h-screen" alt="" />
-        </div>
-        <div className="col-span-5">
+        <div className="col-span-1 h-full w-0.5 bg-white"></div>
+        <div className="col-span-5 mt-3">
           <Capsule
             name={data.name2}
             playerCount={data.playerCount2}
             imageURL="bioshockcapsule.jpg"
+            showPlayerData={false}
           />
           <Button text={"Higher"} color={Color.Red}></Button>
           <Button text={"Lower"} color={Color.Green}></Button>
