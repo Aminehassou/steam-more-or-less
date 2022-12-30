@@ -12,10 +12,11 @@ export default function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
+  const rand: number = Math.random();
   res.status(200).json({
     name1: "Dota 2",
-    playerCount1: 500,
+    playerCount1: rand,
     name2: "Bioshock",
-    playerCount2: 200,
+    playerCount2: 500,
   });
 }

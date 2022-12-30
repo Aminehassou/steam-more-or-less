@@ -14,7 +14,7 @@ const fetcher = async (url: string) => {
 };
 
 export default function Home() {
-  const { data, error, isLoading } = useSWR("/api/game", fetcher);
+  const { data, error, isLoading, mutate } = useSWR("/api/game", fetcher);
   if (error) return <div>failed to load</div>;
   if (isLoading) return <div>loading...</div>;
   return (
@@ -36,8 +36,19 @@ export default function Home() {
             imageURL="bioshockcapsule.jpg"
             showPlayerData={false}
           />
-          <Button text={"Higher"} color={Color.Red}></Button>
-          <Button text={"Lower"} color={Color.Green}></Button>
+
+          <Button
+            text={"Higher"}
+            color={Color.Red}
+            mutate={mutate}
+            data={data}
+          ></Button>
+          <Button
+            text={"Lower"}
+            color={Color.Green}
+            mutate={mutate}
+            data={data}
+          ></Button>
         </div>
       </main>
     </div>
