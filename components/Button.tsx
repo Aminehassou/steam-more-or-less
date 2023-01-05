@@ -3,13 +3,11 @@ import { Color } from "../utils";
 export default function Button({
   text,
   color,
-  mutate,
-  data,
+  onClick,
 }: {
   text: string;
   color: Color;
-  mutate: KeyedMutator<any>;
-  data: any;
+  onClick: any;
 }) {
   let btnClass: string =
     color === Color.Red
@@ -21,9 +19,7 @@ export default function Button({
       <button
         type="button"
         className={`focus:outline-none text-white focus:ring-4 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 ${btnClass}`}
-        onClick={() => {
-          mutate({ ...data });
-        }}
+        onClick={onClick}
       >
         {text}
       </button>
