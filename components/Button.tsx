@@ -1,4 +1,3 @@
-import { KeyedMutator } from "swr";
 import { Color } from "../utils";
 export default function Button({
   text,

@@ -1,11 +1,11 @@
-import useSWRImmutable from "swr/immutable";
+import { useQuery } from "@tanstack/react-query";
 import Capsule from "../components/Capsule";
-import Button from "../components/Button";
-import { Color } from "../utils";
-import { useState } from "react";
+
+import { useEffect, useState } from "react";
 
 const fetcher = async (url: string, queryParams: string = "") => {
-  console.log(`${url}${queryParams}`);
+  console.log("queryParams", queryParams);
+
   const res = await fetch(`${url}${queryParams}`);
   const data = await res.json();
 
@@ -18,18 +18,52 @@ const fetcher = async (url: string, queryParams: string = "") => {
 export default function Home() {
   const [showPlayerData, setShowPlayerData] = useState<boolean>(false);
   const [queryParams, setQueryParams] = useState<string>("");
+  const [leftGame, setLeftGame] = useState<any>({});
+  const [rightGame, setRightGame] = useState<any>({});
 
-  const { data, error, isLoading } = useSWRImmutable(
-    ["/api/game/start"],
-    ([url]) => fetcher(url)
+  const { data, error, isLoading } = useQuery(
+    ["startGame"],
+    () => {
+      return fetcher("/api/game/start");
+    },
+    {
+      cacheTime: Infinity,
+      refetchOnMount: false,
+      refetchOnWindowFocus: false,
+      refetchOnReconnect: false,
+    }
   );
+
   const {
     data: nextData,
     error: nextError,
     isLoading: nextIsLoading,
-  } = useSWRImmutable(["/api/game/next", queryParams], ([url, queryParams]) =>
-    fetcher(url, queryParams)
+    refetch,
+  } = useQuery(
+    ["nextGame", queryParams],
+    () => {
+      return fetcher("/api/game/next", queryParams);
+    },
+    {
+      cacheTime: Infinity,
+      refetchOnMount: false,
+      refetchOnWindowFocus: false,
+      refetchOnReconnect: false,
+      enabled: !!queryParams,
+      onSuccess: (nextGame) => {
+        setLeftGame(rightGame);
+        setRightGame(nextGame);
+      },
+    }
   );
+
+  useEffect(() => {
+    if (data?.length === 2) {
+      setLeftGame(data[0]);
+      setRightGame(data[1]);
+    }
+  }, [data]);
+
   if (error) return <div>failed to load</div>;
   if (isLoading) return <div>loading...</div>;
 
@@ -37,8 +71,8 @@ export default function Home() {
     setShowPlayerData(true);
     setTimeout(() => {
       setShowPlayerData(false);
+      setQueryParams(`?lastgame=${rightGame.title}`);
     }, 1000);
-    setQueryParams(`?lastgame=${data[1].title}`);
   }
 
   return (
@@ -46,8 +80,8 @@ export default function Home() {
       <main className="grid grid-cols-11 text-center text-3xl text-white h-screen place-items-center">
         <div className="col-span-5">
           <Capsule
-            name={data[0].title}
-            playerCount={data[0].player_count}
+            name={leftGame.title}
+            playerCount={leftGame.player_count}
             imageURL="dota2capsule.jpg"
             showPlayerData={true}
             onClick={onClick}
@@ -56,8 +90,8 @@ export default function Home() {
         <div className="col-span-1 h-full w-0.5 bg-white"></div>
         <div className="col-span-5">
           <Capsule
-            name={data[1].title}
-            playerCount={data[1].player_count}
+            name={rightGame.title}
+            playerCount={rightGame.player_count}
             imageURL="bioshockcapsule.jpg"
             showPlayerData={showPlayerData}
             onClick={onClick}

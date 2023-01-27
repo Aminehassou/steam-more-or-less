@@ -3,7 +3,7 @@ export enum Color {
   Green = "green",
 }
 
-export function getTwoRandomIndexes(range: number): number[] {
+function getTwoRandomIndexes(range: number): number[] {
   let numberOne = 0;
   let numberTwo = 0;
 
@@ -13,3 +13,12 @@ export function getTwoRandomIndexes(range: number): number[] {
   } while (numberTwo === numberOne);
   return [numberOne, numberTwo];
 }
+function getOneRandomIndex(range: number): number {
+  let numberOne = 0;
+
+  numberOne = Math.floor(Math.random() * range);
+
+  return numberOne;
+}
+
+export { getTwoRandomIndexes, getOneRandomIndex };
