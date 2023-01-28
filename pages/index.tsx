@@ -51,8 +51,12 @@ export default function Home() {
       refetchOnReconnect: false,
       enabled: !!queryParams,
       onSuccess: (nextGame) => {
-        setLeftGame(rightGame);
-        setRightGame(nextGame);
+        setTimeout(() => {
+          setShowPlayerData(false);
+
+          setLeftGame(rightGame);
+          setRightGame(nextGame);
+        }, 1000);
       },
     }
   );
@@ -69,10 +73,7 @@ export default function Home() {
 
   function onClick() {
     setShowPlayerData(true);
-    setTimeout(() => {
-      setShowPlayerData(false);
-      setQueryParams(`?lastgame=${rightGame.title}`);
-    }, 1000);
+    setQueryParams(`?lastgame=${rightGame.title}`);
   }
 
   return (
@@ -85,6 +86,7 @@ export default function Home() {
             imageURL="dota2capsule.jpg"
             showPlayerData={true}
             onClick={onClick}
+            isLeft={true}
           />
         </div>
         <div className="col-span-1 h-full w-0.5 bg-white"></div>
@@ -95,6 +97,7 @@ export default function Home() {
             imageURL="bioshockcapsule.jpg"
             showPlayerData={showPlayerData}
             onClick={onClick}
+            isLeft={false}
           />
         </div>
       </main>
