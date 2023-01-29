@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import Capsule from "../components/Capsule";
 
 import { useEffect, useState } from "react";
+import ReactLoading from "react-loading";
 
 const fetcher = async (url: string, queryParams: string = "") => {
   console.log("queryParams", queryParams);
@@ -69,7 +70,12 @@ export default function Home() {
   }, [data]);
 
   if (error) return <div>failed to load</div>;
-  if (isLoading) return <div>loading...</div>;
+  if (isLoading)
+    return (
+      <div className="grid h-screen place-items-center">
+        <ReactLoading type={"spin"} color={"#FFFFFF"} width={100} />
+      </div>
+    );
 
   function onClick() {
     setShowPlayerData(true);
