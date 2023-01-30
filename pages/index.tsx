@@ -1,9 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import Capsule from "../components/Capsule";
 
-import { useEffect, useState } from "react";
+import { MouseEventHandler, useEffect, useState } from "react";
 import ReactLoading from "react-loading";
-
+import { isCorrectGuess } from "../utils";
 const fetcher = async (url: string, queryParams: string = "") => {
   console.log("queryParams", queryParams);
 
@@ -21,6 +21,7 @@ export default function Home() {
   const [queryParams, setQueryParams] = useState<string>("");
   const [leftGame, setLeftGame] = useState<any>({});
   const [rightGame, setRightGame] = useState<any>({});
+  const [guessMessage, setGuessMessage] = useState<string>("");
 
   const { data, error, isLoading } = useQuery(
     ["startGame"],
@@ -77,9 +78,20 @@ export default function Home() {
       </div>
     );
 
-  function onClick() {
+  function onClick(e: any) {
     setShowPlayerData(true);
     setQueryParams(`?lastgame=${rightGame.title}`);
+    if (
+      isCorrectGuess(
+        leftGame.player_count,
+        rightGame.player_count,
+        e.target.value
+      )
+    ) {
+      setGuessMessage("Correct!");
+    } else {
+      setGuessMessage("Incorrect.");
+    }
   }
 
   return (
@@ -95,7 +107,7 @@ export default function Home() {
             isLeft={true}
           />
         </div>
-        <div className="col-span-1 h-full w-0.5 bg-white"></div>
+        <div className="col-span-1 h-full w-0.5 bg-white">{guessMessage}</div>
         <div className="col-span-5">
           <Capsule
             name={rightGame.title}

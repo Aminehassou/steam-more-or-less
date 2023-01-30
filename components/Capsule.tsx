@@ -22,7 +22,7 @@ export default function Capsule({
       <div className="text-gray-400 text-base pt-2">has</div>
       <div className="">
         {isLeft ? (
-          playerCount?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") // Add decimal seperator
+          playerCount?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") // Add decimal seperator with regex
         ) : (
           <CountUp end={playerCount} separator="," duration={0.5} />
         )}
@@ -31,8 +31,8 @@ export default function Capsule({
     </div>
   ) : (
     <div className="h-10 pt-0.5">
-      <Button text={"Higher"} color={Color.Red} onClick={onClick}></Button>
-      <Button text={"Lower"} color={Color.Green} onClick={onClick}></Button>
+      <Button text={"Higher"} color={Color.Red} onClick={onClick} />
+      <Button text={"Lower"} color={Color.Green} onClick={onClick} />
     </div>
   );
   return (

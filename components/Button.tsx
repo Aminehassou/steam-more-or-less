@@ -18,6 +18,7 @@ export default function Button({
       <button
         type="button"
         className={`focus:outline-none text-white focus:ring-4 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 ${btnClass}`}
+        value={color === Color.Red ? "higher" : "lower"}
         onClick={onClick}
       >
         {text}

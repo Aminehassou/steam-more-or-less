@@ -21,4 +21,21 @@ function getOneRandomIndex(range: number): number {
   return numberOne;
 }
 
-export { getTwoRandomIndexes, getOneRandomIndex };
+function isCorrectGuess(
+  leftGamePlayerCount: number,
+  rightGamePlayerCount: number,
+  guessType: string
+): boolean {
+  let res: boolean = true;
+  if (guessType === "lower") {
+    res = false;
+  }
+  if (leftGamePlayerCount < rightGamePlayerCount) {
+    return res;
+  } else if (leftGamePlayerCount > rightGamePlayerCount) {
+    return !res;
+  }
+  return true;
+}
+
+export { getTwoRandomIndexes, getOneRandomIndex, isCorrectGuess };
